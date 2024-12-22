@@ -1,0 +1,220 @@
+<div class="container mt-5">
+  <h3 class="text-center mb-4">Products</h3>
+  <div *ngIf="user">
+    <p>Welcome, {{ user.firstname }} ({{ user.username }})</p>
+  </div>
+  <div *ngIf="isAdminOrSuperAdmin()">
+    <button class="btn btn-primary mb-3" (click)="openAddProductModal()">
+      Add New Product
+    </button>
+  </div>
+  <div *ngIf="products.length > 0">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let product of products">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">Price: {{ product.price | currency }}</p>
+            <button class="btn btn-info" (click)="viewProduct(product)">
+              View
+            </button>
+            <button
+              *ngIf="isAdminOrSuperAdmin()"
+              class="btn btn-warning"
+              (click)="editProduct(product)"
+            >
+              Edit
+            </button>
+            <button
+              *ngIf="isAdminOrSuperAdmin()"
+              class="btn btn-danger"
+              (click)="deleteProduct(product)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="products.length === 0">
+    <p>No products available.</p>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div
+    class="modal fade"
+    id="addProductModal"
+    tabindex="-1"
+    aria-labelledby="addProductModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onAddProduct()">
+            <div class="mb-3">
+              <label for="code" class="form-label">Code</label>
+              <input
+                type="text"
+                class="form-control"
+                id="code"
+                [(ngModel)]="newProduct.code"
+                name="code"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                [(ngModel)]="newProduct.name"
+                name="name"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                [(ngModel)]="newProduct.description"
+                name="description"
+                required
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input
+                type="text"
+                class="form-control"
+                id="image"
+                [(ngModel)]="newProduct.image"
+                name="image"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <input
+                type="text"
+                class="form-control"
+                id="category"
+                [(ngModel)]="newProduct.category"
+                name="category"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input
+                type="number"
+                class="form-control"
+                id="price"
+                [(ngModel)]="newProduct.price"
+                name="price"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="quantity"
+                [(ngModel)]="newProduct.quantity"
+                name="quantity"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="internalReference" class="form-label"
+                >Internal Reference</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="internalReference"
+                [(ngModel)]="newProduct.internalReference"
+                name="internalReference"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="shellId" class="form-label">Shell ID</label>
+              <input
+                type="number"
+                class="form-control"
+                id="shellId"
+                [(ngModel)]="newProduct.shellId"
+                name="shellId"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="inventoryStatus" class="form-label"
+                >Inventory Status</label
+              >
+              <select
+                class="form-control"
+                id="inventoryStatus"
+                [(ngModel)]="newProduct.inventoryStatus"
+                name="inventoryStatus"
+                required
+              >
+                <option value="INSTOCK">In Stock</option>
+                <option value="LOWSTOCK">Low Stock</option>
+                <option value="OUTOFSTOCK">Out of Stock</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input
+                type="number"
+                class="form-control"
+                id="rating"
+                [(ngModel)]="newProduct.rating"
+                name="rating"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="createdAt" class="form-label">Created At</label>
+              <input
+                type="date"
+                class="form-control"
+                id="createdAt"
+                [(ngModel)]="newProduct.createdAt"
+                name="createdAt"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="updatedAt" class="form-label">Updated At</label>
+              <input
+                type="date"
+                class="form-control"
+                id="updatedAt"
+                [(ngModel)]="newProduct.updatedAt"
+                name="updatedAt"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
